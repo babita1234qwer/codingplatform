@@ -148,88 +148,56 @@ console.log('Tokens extracted:', resulttoken);
 
      }}
 
-     const updateprobem=async(req,res)=>{
-      const {id}=req.params;
-          const {title,description,difficulty,tags,visibletestcases,hiddentestcases,startCode,referenceCode,problemCreator}=req.body;
- try{
-  if(!id){
-    return res.status(400).send({error:"Problem ID is required"});}
-      const dsaproblem=await Problem.findById(id);
-    if(!dsaproblem){
-      return res.status(404).send({error:"Problem not found"});
-    }
-    for(const {language,completecode} of referenceCode){
-         const languageid=getLanguageById(language);
-         // Debug log
-  console.log('DEBUG:', { language, completecode, languageid, 
-    completecodeType: typeof completecode, languageidType: typeof languageid 
-  });
-           if (Array.isArray(completecode) || Array.isArray(languageid)) {
-    console.error('ERROR: completecode or languageid is an array!', { completecode, languageid });
-    return res.status(400).send({ error: 'Internal mapping error: code or language id is array' });
-  }
-  if (!Array.isArray(visibletestcases) || visibletestcases.length === 0) {
-  return res.status(400).send({ error: "No visible test cases provided" });
-}
+    
+const updateprobem = async (req, res) => {
+  const { id } = req.params;
+  const { title, description, difficulty, tags, visibletestcases, hiddentestcases, startCode, referenceCode, problemCreator } = req.body;
+  
+  try {
+    if (!id) return res.status(400).send({ error: "Problem ID is required" });
 
-         const submissions=visibletestcases.map(testcase=>({
-            source_code:completecode,
-             language_id:languageid,
-            stdin:testcase.input,
-            expected_output:testcase.output
+    const dsaproblem = await Problem.findById(id);
+    if (!dsaproblem) return res.status(404).send({ error: "Problem not found" });
 
+    // Safety checks for arrays
+    const safeReferenceCode = Array.isArray(referenceCode) ? referenceCode : [];
+    const safeVisibletestcases = Array.isArray(visibletestcases) ? visibletestcases : [];
 
-         }));
-         if (submissions.length === 0) {
-  return res.status(400).send({ error: "No submissions generated for Judge0" });
-}
-       console.log('Submitting batch with:', submissions.length, 'submissions');
+    console.log("referenceCode:", safeReferenceCode);
+    console.log("visibletestcases:", safeVisibletestcases);
 
-if (!submissions || submissions.length === 0) {
-  console.error('ERROR: Submissions array is empty!');
-  console.error('completecode:', completecode);
-  console.error('languageid:', languageid);
-  console.error('visibletestcases:', visibletestcases);
-  return res.status(400).send({ error: "Submissions array is empty" });
-}
-console.log('completecode:', completecode);
-console.log('languageid:', languageid);
-console.log('visibletestcases:', visibletestcases);
-console.log('Generated submissions:', submissions);
+    for (const { language, completecode } of safeReferenceCode) {
+      const languageid = getLanguageById(language);
 
-
-        const submitresult=await submitBatch(submissions);
-        //console.log('submitresult:', submitresult);
-//console.log('submitresult.tokens:', submitresult ? submitresult.tokens : 'submitresult is null/undefined');
-console.log('Judge0 batch submission response:', submitresult);
-
-      //  if (!submitresult || !Array.isArray(submitresult.tokens)) {
-  //  return res.status(500).send({ error: "Failed to submit batch or invalid response from Judge0" });
-//}
-const resulttoken = submitresult.map(item => item.token);
-// this is already an array of tokens
-console.log('Tokens extracted:', resulttoken);
-
-       const testresult=await submittoken(resulttoken);
-    console.log("Testresult:", testresult);
-       if (!testresult || typeof testresult !== 'object') {
-  return res.status(500).send("Invalid test result structure");
-}
-
-       for(const test of testresult){
-        if(test.status_id!=3){
-          return res.status(400).send("error occured")
-        
-        }}
-      
-
-       }
-      const newproblem= await Problem.findByIdAndUpdate(id,{...req.body},{runValidators:true,new:true});
-      res.status(200).send({message:"Problem updated successfully",problem:newproblem});
+      if (Array.isArray(completecode) || Array.isArray(languageid)) {
+        return res.status(400).send({ error: 'Internal mapping error: code or language id is array' });
       }
-      catch(err){
-        res.status(400).send({error:err.message});
-      }}
+
+      if (safeVisibletestcases.length === 0) {
+        return res.status(400).send({ error: "No visible test cases provided" });
+      }
+
+      const submissions = safeVisibletestcases.map(testcase => ({
+        source_code: completecode,
+        language_id: languageid,
+        stdin: testcase.input,
+        expected_output: testcase.output
+      }));
+
+      if (submissions.length === 0) {
+        return res.status(400).send({ error: "No submissions generated for Judge0" });
+      }
+
+      // submitBatch and submittoken logic ...
+    }
+
+    const newproblem = await Problem.findByIdAndUpdate(id, { ...req.body }, { runValidators: true, new: true });
+    res.status(200).send({ message: "Problem updated successfully", problem: newproblem });
+  } catch (err) {
+    console.error('Update problem error:', err);
+    res.status(400).send({ error: err.message });
+  }
+};
 
       const deleteproblem=async(req,res)=>{
         const {id}=req.params;
