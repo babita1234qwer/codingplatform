@@ -10,6 +10,7 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const main=require('./config/db');
 const cookieparser=require('cookie-parser');
+
 const authrouter=require('./routes/userauth');
 const submitRouter=require('./routes/submit');
 const problemrouter=require('./routes/problemcreator');
@@ -22,14 +23,20 @@ const cors=require('cors');
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin:[
+    'https://lustrous-chimera-ccf5e4.netlify.app',
+    'http://localhost:5173'
+  ],
     credentials: true
   }
 });
 socketHandler(io);
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Replace with your frontend URL
+ origin: [
+    'https://lustrous-chimera-ccf5e4.netlify.app',
+    'http://localhost:5173'
+  ],
     credentials: true 
 }))
 
