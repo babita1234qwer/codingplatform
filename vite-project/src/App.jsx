@@ -14,9 +14,11 @@ import CreateContest from './components/constestcomponent.jsx';
 import ContestList from './pages/contestdisplay.jsx';
 import ContestDetail from './pages/contestdetail.jsx';
 import SolveContestProblem from './pages/solvecontets.jsx';
+import UpdateProblem from './components/adminupdateproblem.jsx';
 import Leaderboard from './components/leaderboard.jsx';
 import Home from './pages/home.jsx';
 import UserDashboard from './components/userdashboard.jsx';
+import AdminProblemList from './components/adminproblem';
 import AdminCreate from './components/admincreate.jsx';
 function App() {
   const {isAuthenticated,user,loading} = useSelector((state) => state.auth);
@@ -36,12 +38,17 @@ useEffect(() => {
        <Route path="/admin/delete"  element={isAuthenticated &&user?.role==='admin'?<AdminDelete></AdminDelete>:<Navigate to='/'></Navigate>}></Route>
        <Route path="/admin/video" element={isAuthenticated && user?.role === 'admin' ? <AdminVideo /> : <Navigate to="/" />} />
             <Route path="/admin/upload/:problemId" element={isAuthenticated && user?.role === 'admin' ? <AdminUpload /> : <Navigate to="/" />} />
-      <Route path="/admin/createcontest" element={isAuthenticated && user?.role === 'admin' ? <CreateContest></CreateContest>: <Navigate to="/" />} />
+      <Route path="/admins/createcontest" element={isAuthenticated && user?.role === 'admin' ? <CreateContest></CreateContest>: <Navigate to="/" />} />
       <Route path="/contests" element={isAuthenticated ? <ContestList /> : <Navigate to="/login" />} />
       <Route path="/contest/:id" element={isAuthenticated ? <ContestDetail /> : <Navigate to="/login" />} />
       <Route path="/contest/:contestId/problem/:problemId" element={isAuthenticated ? <SolveContestProblem /> : <Navigate to="/login" />} />
             <Route path="/contest/:contestId/leaderboard" element={isAuthenticated ?  <Leaderboard></Leaderboard> : <Navigate to="/login" />} />
             <Route path="/admin/create"  element={isAuthenticated &&user?.role==='admin'?<AdminCreate></AdminCreate>:<Navigate to='/'></Navigate>}></Route>
+          <Route path="/admin/problems"  element={isAuthenticated &&user?.role==='admin'?<AdminProblemList></AdminProblemList>:<Navigate to='/'></Navigate>}></Route>
+
+           
+            <Route path="/admin/update/:id"  element={isAuthenticated &&user?.role==='admin'?<UpdateProblem></UpdateProblem>:<Navigate to='/'></Navigate>}></Route>
+
 <Route path="/dashboard"element={isAuthenticated ?  <UserDashboard></UserDashboard>: <Navigate to="/"/>}/>
       <Route path="/problem/:problemId" element={<ProblemPage></ProblemPage>}/>
     </Routes>
