@@ -139,4 +139,4 @@ const ContestDetail = () => {
   );
 };
 
-export default ContestDetail;
+export default ContestDetail; 

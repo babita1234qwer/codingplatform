@@ -10,9 +10,9 @@ import Editorial from '../components/editorial';
 import CommentSection from '../components/comment';
 import ProblemUserCounter from '../components/livecount';
 const langMap={
-    cpp:'C++',
-    java:'Java',
-    javascript:'JavaScript',
+    cpp:'c++',
+    java:'java',
+    javascript:'javascript',
 };
 const ProblemPage=()=>{
     const [problem,setproblem]=useState(null);
@@ -31,9 +31,9 @@ const ProblemPage=()=>{
             setloading(true);
             try{
                 const response=await axiosClient.get(`/problem/problembyid/${problemId}`);
-                const initialCode=response.data.startCode.find(sc=>sc.language==langMap[selectedlanguage])?.initialcode;
+                //const initialCode=response.data.startCode.find(sc=>sc.language==langMap[selectedlanguage])?.initialcode;
                 setproblem(response.data);
-                setcode(initialCode);
+                //setcode(initialCode);
                 setloading(false);
             }
             catch(error){
@@ -45,7 +45,12 @@ const ProblemPage=()=>{
     },[problemId]);
     useEffect(()=>{
         if(problem){
-            const initialCode=problem.startCode.find(sc=>sc.language==langMap[selectedlanguage])?.initialcode;
+          console.log('startCode:', problem.startCode);
+        console.log('selectedlanguage:', selectedlanguage, 'langMap:', langMap[selectedlanguage]);
+            const initialCode = problem.startCode.find(
+  sc => sc.language.toLowerCase() === langMap[selectedlanguage].toLowerCase()
+)?.initialcode;
+            console.log('initialCode:', initialCode);
             setcode(initialCode);
         }
     },[selectedlanguage, problem]);
