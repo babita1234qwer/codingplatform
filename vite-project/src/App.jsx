@@ -17,6 +17,7 @@ import SolveContestProblem from './pages/solvecontets.jsx';
 import Leaderboard from './components/leaderboard.jsx';
 import Home from './pages/home.jsx';
 import UserDashboard from './components/userdashboard.jsx';
+import AdminCreate from './components/admincreate.jsx';
 function App() {
   const {isAuthenticated,user,loading} = useSelector((state) => state.auth);
  const dispatch = useDispatch();
@@ -40,6 +41,7 @@ useEffect(() => {
       <Route path="/contest/:id" element={isAuthenticated ? <ContestDetail /> : <Navigate to="/login" />} />
       <Route path="/contest/:contestId/problem/:problemId" element={isAuthenticated ? <SolveContestProblem /> : <Navigate to="/login" />} />
             <Route path="/contest/:contestId/leaderboard" element={isAuthenticated ?  <Leaderboard></Leaderboard> : <Navigate to="/login" />} />
+            <Route path="/admin/create"  element={isAuthenticated &&user?.role==='admin'?<AdminCreate></AdminCreate>:<Navigate to='/'></Navigate>}></Route>
 <Route path="/dashboard"element={isAuthenticated ?  <UserDashboard></UserDashboard>: <Navigate to="/"/>}/>
       <Route path="/problem/:problemId" element={<ProblemPage></ProblemPage>}/>
     </Routes>
