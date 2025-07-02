@@ -46,7 +46,7 @@ function AdminUpload(){
           formData.append('api_key', api_key);
     
           // Step 3: Upload directly to Cloudinary
-          const uploadResponse = await axiosClient.post(upload_url, formData, {
+          const uploadResponse = await axios.post(upload_url, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
