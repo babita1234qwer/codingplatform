@@ -44,14 +44,14 @@ function Homepage() {
     setSolvedProblems([]);
   };
 
-  // Filter by search in title (all words must be present, any order)
+  
   const filteredProblems = problems.filter(problem => {
     const difficultyMatch = filters.difficulty === 'all' || problem.difficulty === filters.difficulty;
     const tagMatch = filters.tag === 'all' || problem.tags === filters.tag;
     const statusMatch = filters.status === 'all' ||
       solvedProblems.some(sp => sp._id === problem._id);
 
-    // Search logic: all words in search must be present in title (case-insensitive)
+    
     const searchWords = search.trim().toLowerCase().split(/\s+/).filter(Boolean);
     const title = problem.title.toLowerCase();
     const searchMatch = searchWords.every(word => title.includes(word));
