@@ -26,7 +26,7 @@ const UpdateProblem = () => {
         const res = await axiosClient.get(`/problem/problembyid/${id}`);
         const data = res.data;
 
-        // Safely assign arrays or default arrays to avoid null/undefined
+        
         setFormData({
           title: data.title || '',
           description: data.description || '',
@@ -56,32 +56,32 @@ const UpdateProblem = () => {
     fetchProblem();
   }, [id]);
 
-  // Handle simple input changes
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Handle tags input as comma-separated string to array
+  
   const handleTagsChange = (e) => {
     const tagsArray = e.target.value.split(',').map(tag => tag.trim()).filter(Boolean);
     setFormData(prev => ({ ...prev, tags: tagsArray }));
   };
 
-  // Handle changes in array-type fields like test cases or code snippets
+  
   const handleArrayChange = (field, index, key, value) => {
     const updated = [...formData[field]];
     updated[index] = { ...updated[index], [key]: value };
     setFormData(prev => ({ ...prev, [field]: updated }));
   };
 
-  // Optionally: Add / remove test cases or code entries if needed (not shown here)
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     try {
-      // Make sure to send full updated formData matching backend expected shape
+      
       await axiosClient.patch(`/problem/update/${id}`, formData);
       navigate('/admin/problems');
     } catch (err) {
