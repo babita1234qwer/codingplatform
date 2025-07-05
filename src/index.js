@@ -2,7 +2,7 @@ const express=require('express');
 const app=express();
 const http = require('http');
 const { Server } = require('socket.io');
-const socketHandler = require('./controllers/socket.js'); // 👈 Import it here
+const socketHandler = require('./controllers/socket.js'); 
 
 const server = http.createServer(app);
 
