@@ -66,13 +66,13 @@ const submitcode = async (req, res) => {
     submission.errorMessage = errorMessage;
     await submission.save();
 
-    // ✅ Normal solved-problem tracking
+    
     if (!req.result.problemsolved.includes(problemId)) {
       req.result.problemsolved.push(problemId);
       await req.result.save();
     }
 
-    // ✅ Handle Contest Score (only if contestId exists)
+    //  Handle Contest Score (only if contestId exists)
     if (contestId && status === 'accepted') {
       const contest = await Contest.findById(contestId);
       if (!contest) {
