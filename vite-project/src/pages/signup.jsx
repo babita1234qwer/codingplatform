@@ -6,17 +6,31 @@ import { registerUser } from '../authslice';
 import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
 
+
 const signupSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   emailid: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters long'),
+  password: z
+    .string()
+    .min(6, 'Password must be at least 6 characters long')
+    .regex(/^[A-Z]/, 'Password must start with a capital letter')
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/,
+      'Password must include uppercase, lowercase, number, and special character'
+    ),
 });
 
 function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(signupSchema) });
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(signupSchema) });
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -24,8 +38,21 @@ function Signup() {
     }
   }, [isAuthenticated, navigate]);
 
-  const submitteddata = (data) => {
-    dispatch(registerUser(data));
+  const submitteddata = async (data) => {
+    try {
+      const resultAction = await dispatch(registerUser(data));
+      if (registerUser.rejected.match(resultAction)) {
+        setError('root', {
+          type: 'manual',
+          message: resultAction.payload || 'Signup failed',
+        });
+      }
+    } catch (error) {
+      setError('root', {
+        type: 'manual',
+        message: 'Something went wrong. Try again later.',
+      });
+    }
   };
 
   return (
@@ -35,6 +62,14 @@ function Signup() {
           <span className="inline-block animate-bounce">🚀</span> CodeCrack
         </h1>
         <h2 className="text-xl text-secondary mb-6 font-semibold text-center">Create your account</h2>
+
+        
+        {errors.root && (
+          <div className="text-red-600 text-sm mb-4 text-center">
+            {errors.root.message}
+          </div>
+        )}
+
         <form className="w-full" onSubmit={handleSubmit(submitteddata)}>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2" htmlFor="username">Username</label>
@@ -46,6 +81,7 @@ function Signup() {
             />
             {errors.firstName && <span className="text-red-500 text-sm">{errors.firstName.message}</span>}
           </div>
+
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2" htmlFor="email">Email</label>
             <input
@@ -56,6 +92,7 @@ function Signup() {
             />
             {errors.emailid && <span className="text-red-500 text-sm">{errors.emailid.message}</span>}
           </div>
+
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2" htmlFor="password">Password</label>
             <input
@@ -65,7 +102,13 @@ function Signup() {
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
             />
             {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
+
+            {/* Optional password guide */}
+            <p className="text-xs text-gray-500 mt-1">
+              Must start with a capital letter and include lowercase, number, and special character.
+            </p>
           </div>
+
           <button
             type="submit"
             className="w-full bg-primary text-white py-2 rounded-full font-semibold hover:bg-primary/90 transition-colors duration-150 shadow"
@@ -73,6 +116,7 @@ function Signup() {
             Sign Up
           </button>
         </form>
+
         <div className="mt-6 text-sm text-base-content/70 text-center">
           Already have an account?{' '}
           <span
