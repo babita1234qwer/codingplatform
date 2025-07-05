@@ -1,5 +1,5 @@
-const problemRooms = {}; // { problemId: Set of userIds }
-const socketToUserMap = {}; // { socket.id: { userId, problemId } }
+const problemRooms = {}; 
+const socketToUserMap = {}; 
 
 const socketHandler = (io) => {
   io.on('connection', (socket) => {
