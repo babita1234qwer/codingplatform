@@ -24,7 +24,7 @@ function AdminUpload(){
     
       const selectedFile = watch('videoFile')?.[0];
     
-      // Upload video to Cloudinary
+      
       const onSubmit = async (data) => {
         const file = data.videoFile[0];
         
@@ -33,11 +33,11 @@ function AdminUpload(){
         clearErrors();
     
         try {
-          // Step 1: Get upload signature from backend
+          
           const signatureResponse = await axiosClient.get(`/video/create/${problemId}`);
           const { signature, timestamp, public_id, api_key, cloud_name, upload_url } = signatureResponse.data;
     
-          // Step 2: Create FormData for Cloudinary upload
+          
           const formData = new FormData();
           formData.append('file', file);
           formData.append('signature', signature);
@@ -45,7 +45,7 @@ function AdminUpload(){
           formData.append('public_id', public_id);
           formData.append('api_key', api_key);
     
-          // Step 3: Upload directly to Cloudinary
+          
           const uploadResponse = await axios.post(upload_url, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
@@ -67,7 +67,7 @@ function AdminUpload(){
           });
     
           setUploadedVideo(metadataResponse.data.videoSolution);
-          reset(); // Reset form after successful upload
+          reset(); 
           
         } catch (err) {
           console.error('Upload error:', err);
@@ -81,7 +81,7 @@ function AdminUpload(){
         }
       };
     
-      // Format file size
+      
       const formatFileSize = (bytes) => {
         if (bytes === 0) return '0 Bytes';
         const k = 1024;
@@ -90,7 +90,7 @@ function AdminUpload(){
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
       };
     
-      // Format duration
+      
       const formatDuration = (seconds) => {
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
@@ -182,7 +182,7 @@ function AdminUpload(){
                   </div>
                 )}
     
-                {/* Upload Button */}
+                
                 <div className="card-actions justify-end">
                   <button
                     type="submit"
