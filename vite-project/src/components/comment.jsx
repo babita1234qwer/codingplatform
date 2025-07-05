@@ -8,9 +8,9 @@ const CommentSection = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [currentUserId, setCurrentUserId] = useState(null);
-  const [currentUserRole, setCurrentUserRole] = useState(""); // For admin check
+  const [currentUserRole, setCurrentUserRole] = useState(""); 
   const [replyText, setReplyText] = useState({});
-  const [showReply, setShowReply] = useState({}); // Track which reply input is open
+  const [showReply, setShowReply] = useState({}); 
 
   const fetchComments = async () => {
     try {
