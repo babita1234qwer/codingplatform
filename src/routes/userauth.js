@@ -5,7 +5,7 @@ const {register, login,logout, adminregister,deleteProfile} = require('../contro
 const userMiddleware = require("../middleware/usermiddleware");
 const adminMiddleware = require('../middleware/adminmiddleware');
 
-// Register
+
 authRouter.post('/register', register);
 authRouter.post('/login', login);
 authRouter.post('/logout', userMiddleware, logout);
@@ -18,7 +18,5 @@ authRouter.get('/me', userMiddleware, (req, res) => {
 
 module.exports = authRouter;
 
-// login
-// logout
-// GetProfile
+
 
