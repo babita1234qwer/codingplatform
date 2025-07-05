@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 
 
-const socket = io('https://codingplatform4.onrender.com', { withCredentials: true }); // 👈 use your backend server URL
+const socket = io('https://codingplatform4.onrender.com', { withCredentials: true }); 
 
 const ProblemUserCounter = () => {
   const { problemId } = useParams(); // assumes route contains :problemId
