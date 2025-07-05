@@ -8,7 +8,7 @@ Commentrouter.post('/', userMiddleware, addComment);
 Commentrouter.get('/problem/:problemId', userMiddleware, getComments);
 Commentrouter.post('/reply/:commentId',userMiddleware,replyToComment);
 
-// DELETE /comments/:commentId
+
 Commentrouter.delete('/:commentId', userMiddleware, deleteComment);
 Commentrouter.post("/like/:commentId", userMiddleware, toggleLike);
 
