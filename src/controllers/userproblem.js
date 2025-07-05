@@ -300,7 +300,7 @@ const getUserContests = async (req, res) => {
     const userId = req.user?._id || req.result?._id;
     if (!userId) return res.status(400).json({ error: "User ID not found" });
 
-    // Only convert if userId is a string
+    
     const userObjectId = typeof userId === 'string' ? new mongoose.Types.ObjectId(userId) : userId;
     console.log("userId from auth:", userId);
     console.log("userObjectId:", userObjectId);
