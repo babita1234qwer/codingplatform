@@ -3,7 +3,7 @@ const Commentrouter = express.Router();
 const { addComment, deleteComment,toggleLike,getComments ,replyToComment} = require('../controllers/cooments');
 const userMiddleware = require('../middleware/usermiddleware');
 
-// POST /comments
+
 Commentrouter.post('/', userMiddleware, addComment);
 Commentrouter.get('/problem/:problemId', userMiddleware, getComments);
 Commentrouter.post('/reply/:commentId',userMiddleware,replyToComment);
