@@ -58,7 +58,7 @@ function Admin() {
   return (
     <div className="min-h-screen bg-base-200">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
+  
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-base-content mb-4">
             Admin Panel
@@ -68,7 +68,7 @@ function Admin() {
           </p>
         </div>
 
-        {/* Admin Options Grid */}
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {adminOptions.map((option) => {
             const IconComponent = option.icon;
@@ -78,22 +78,22 @@ function Admin() {
                 className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
               >
                 <div className="card-body items-center text-center p-8">
-                  {/* Icon */}
+                  
                   <div className={`${option.bgColor} p-4 rounded-full mb-4`}>
                     <IconComponent size={32} className="text-base-content" />
                   </div>
                   
-                  {/* Title */}
+                
                   <h2 className="card-title text-xl mb-2">
                     {option.title}
                   </h2>
                   
-                  {/* Description */}
+                  
                   <p className="text-base-content/70 mb-6">
                     {option.description}
                   </p>
                   
-                  {/* Action Button */}
+                  
                   <div className="card-actions">
                     <div className="card-actions">
                     <NavLink 
