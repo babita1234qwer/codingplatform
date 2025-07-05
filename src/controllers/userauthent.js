@@ -68,9 +68,7 @@ const login=async (req, res) => {
         }}
 const logout=async (req, res) => {
     try{
-        //validate the token
-        //token ko add kar dena redis me
-        //token ko delete kar dena redis se
+        
         const {token}=req.cookies;
         if(!token){
             throw new Error("invalid token");
@@ -118,8 +116,7 @@ const deleteprofile=async(req, res) => {
             throw new Error("User not found");
         }
         await User.findByIdAndDelete(userId);
-   //submissions delete
-  // await submissions.deleteMany({userId:userId});
+   
         res.status(200).send({message:'User profile deleted successfully'});
     }
     catch(err){
