@@ -17,7 +17,7 @@ const ContestList = () => {
     fetchContests();
   }, []);
 
-  // Determine contest status
+  
   const getStatus = (startTime, endTime) => {
     const now = new Date();
     const start = new Date(startTime);
