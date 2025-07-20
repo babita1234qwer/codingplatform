@@ -58,148 +58,148 @@ function Homepage() {
 
     return difficultyMatch && tagMatch && statusMatch && searchMatch;
   });
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-base-200 to-base-100">
-      {/* Navigation Bar */}
-      <nav className="navbar bg-base-100 shadow-lg px-4 mb-6">
-        <div className="flex-1">
-          <NavLink to="/" className="btn btn-ghost text-2xl font-bold tracking-wide text-primary">CodeCrack</NavLink>
-        </div>
-        <div className="flex-none gap-4 flex items-center">
-           <NavLink to="/dashboard" className="btn btn-outline btn-sm flex items-center gap-2">
-            <span role="img" aria-label="dashboard">👤</span> Dashboard
+// ...existing code...
+return (
+  <div className="min-h-screen bg-[#1a1a1a] text-[#e2e2e2]">
+    {/* Navigation Bar */}
+    <nav className="navbar bg-[#232323] shadow-lg px-4 mb-6 border-b border-[#333]">
+      <div className="flex-1">
+        <NavLink to="/" className="btn btn-ghost text-2xl font-bold tracking-wide text-[#ffa116]">CodeCrack</NavLink>
+      </div>
+      <div className="flex-none gap-4 flex items-center">
+         <NavLink to="/dashboard" className="btn btn-outline btn-sm flex items-center gap-2 border-[#444] text-[#e2e2e2] hover:bg-[#292929]">
+          <span role="img" aria-label="dashboard">👤</span> Dashboard
+        </NavLink>
+        <NavLink to="/contests" className="btn btn-outline btn-sm flex items-center gap-2 border-[#444] text-[#e2e2e2] hover:bg-[#292929]">
+          <span role="img" aria-label="contest">🏆</span> Contests
+        </NavLink>
+        {user?.role?.toLowerCase() === 'admin' && (
+          <NavLink to="/admin" className="btn btn-outline btn-sm flex items-center gap-2 border-[#444] text-[#e2e2e2] hover:bg-[#292929]">
+            <span role="img" aria-label="admin">🛠️</span> Admin
           </NavLink>
-          <NavLink to="/contests" className="btn btn-outline btn-sm flex items-center gap-2">
-            <span role="img" aria-label="contest">🏆</span> Contests
-          </NavLink>
-          {user?.role?.toLowerCase() === 'admin' && (
-            <NavLink to="/admin" className="btn btn-outline btn-sm flex items-center gap-2">
-              <span role="img" aria-label="admin">🛠️</span> Admin
-            </NavLink>
-          )}
-          <div className="dropdown dropdown-end">
-            <div tabIndex={0} className="btn btn-ghost gap-2">
-              <div className="avatar placeholder">
-                <div className="bg-neutral text-neutral-content rounded-full w-8">
-                  <span>{user?.firstName?.[0]?.toUpperCase() || "U"}</span>
-                </div>
+        )}
+        <div className="dropdown dropdown-end">
+          <div tabIndex={0} className="btn btn-ghost gap-2 text-[#e2e2e2]">
+            <div className="avatar placeholder">
+              <div className="bg-[#444] text-[#ffa116] rounded-full w-8">
+                <span>{user?.firstName?.[0]?.toUpperCase() || "U"}</span>
               </div>
-              <span className="font-semibold">{user?.firstName}</span>
             </div>
-            <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-              <li><button onClick={handleLogout}>Logout</button></li>
-            </ul>
+            <span className="font-semibold">{user?.firstName}</span>
           </div>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-2 md:px-6 py-4">
-        {/* Search Bar */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6 justify-center items-center w-full">
-          <input
-            type="text"
-            className="input input-bordered w-full md:max-w-xs"
-            placeholder="Search problems by title..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
-        </div>
-        {/* Filters */}
-        <div className="flex flex-wrap gap-4 mb-8 justify-center">
-          <select
-            className="select select-bordered select-sm"
-            value={filters.status}
-            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-          >
-            <option value="all">All Problems</option>
-            <option value="solved">Solved Problems</option>
-          </select>
-
-          <select
-            className="select select-bordered select-sm"
-            value={filters.difficulty}
-            onChange={(e) => setFilters({ ...filters, difficulty: e.target.value })}
-          >
-            <option value="all">All Difficulties</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
-
-          <select
-            className="select select-bordered select-sm"
-            value={filters.tag}
-            onChange={(e) => setFilters({ ...filters, tag: e.target.value })}
-          >
-            <option value="all">All Tags</option>
-            <option value="array">Array</option>
-            <option value="linkedList">Linked List</option>
-            <option value="graph">Graph</option>
-            <option value="dp">DP</option>
-          </select>
-        </div>
-
-        {/* Problems List */}
-        <div className="flex flex-col gap-6 w-full">
-          {filteredProblems.length === 0 ? (
-            <div className="text-center text-base-content/70 py-10">
-              No problems found.
-            </div>
-          ) : (
-            filteredProblems.map(problem => (
-              <div
-                key={problem._id}
-                className="card bg-base-100 shadow-lg border border-base-200 hover:shadow-xl transition-shadow duration-200 w-full"
-              >
-                <div className="card-body flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                  <div>
-                    <NavLink
-                      to={`/problem/${problem._id}`}
-                      className="card-title text-lg font-bold hover:text-primary"
-                    >
-                      {problem.title}
-                    </NavLink>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      <span className={`badge ${getDifficultyBadgeColor(problem.difficulty)} capitalize`}>
-                        {problem.difficulty}
-                      </span>
-                      <span className="badge badge-info capitalize">{problem.tags}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    {solvedProblems.some(sp => sp._id === problem._id) && (
-                      <div className="badge badge-success gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                        Solved
-                      </div>
-                    )}
-                    <NavLink
-                      to={`/problem/${problem._id}`}
-                      className="btn btn-primary btn-sm w-full md:w-auto"
-                    >
-                      Solve Problem
-                    </NavLink>
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
+          <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-[#232323] rounded-box w-52 border border-[#333]">
+            <li><button onClick={handleLogout} className="text-[#ffa116] hover:bg-[#292929]">Logout</button></li>
+          </ul>
         </div>
       </div>
+    </nav>
+
+    {/* Main Content */}
+    <div className="container mx-auto px-2 md:px-6 py-4">
+      {/* Search Bar */}
+      <div className="flex flex-col md:flex-row gap-4 mb-6 justify-center items-center w-full">
+        <input
+          type="text"
+          className="input input-bordered w-full md:max-w-xs bg-[#232323] border-[#444] text-[#e2e2e2] placeholder-[#888]"
+          placeholder="Search problems by title..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+      </div>
+      {/* Filters */}
+      <div className="flex flex-wrap gap-4 mb-8 justify-center">
+        <select
+          className="select select-bordered select-sm bg-[#232323] border-[#444] text-[#e2e2e2]"
+          value={filters.status}
+          onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+        >
+          <option value="all">All Problems</option>
+          <option value="solved">Solved Problems</option>
+        </select>
+
+        <select
+          className="select select-bordered select-sm bg-[#232323] border-[#444] text-[#e2e2e2]"
+          value={filters.difficulty}
+          onChange={(e) => setFilters({ ...filters, difficulty: e.target.value })}
+        >
+          <option value="all">All Difficulties</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+
+        <select
+          className="select select-bordered select-sm bg-[#232323] border-[#444] text-[#e2e2e2]"
+          value={filters.tag}
+          onChange={(e) => setFilters({ ...filters, tag: e.target.value })}
+        >
+          <option value="all">All Tags</option>
+          <option value="array">Array</option>
+          <option value="linkedList">Linked List</option>
+          <option value="graph">Graph</option>
+          <option value="dp">DP</option>
+        </select>
+      </div>
+
+      {/* Problems List */}
+      <div className="flex flex-col gap-6 w-full">
+        {filteredProblems.length === 0 ? (
+          <div className="text-center text-[#888] py-10">
+            No problems found.
+          </div>
+        ) : (
+          filteredProblems.map(problem => (
+            <div
+              key={problem._id}
+              className="card bg-[#232323] shadow-lg border border-[#333] hover:shadow-xl transition-shadow duration-200 w-full"
+            >
+              <div className="card-body flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                  <NavLink
+                    to={`/problem/${problem._id}`}
+                    className="card-title text-lg font-bold hover:text-[#ffa116] text-[#e2e2e2]"
+                  >
+                    {problem.title}
+                  </NavLink>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    <span className={`badge ${getDifficultyBadgeColor(problem.difficulty)} capitalize`}>
+                      {problem.difficulty}
+                    </span>
+                    <span className="badge badge-info capitalize bg-[#333] text-[#ffa116]">{problem.tags}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  {solvedProblems.some(sp => sp._id === problem._id) && (
+                    <div className="badge badge-success gap-2 bg-[#2ecc71] text-[#232323]">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Solved
+                    </div>
+                  )}
+                  <NavLink
+                    to={`/problem/${problem._id}`}
+                    className="btn btn-primary btn-sm w-full md:w-auto bg-[#ffa116] text-[#232323] border-none hover:bg-[#e2b34a]"
+                  >
+                    Solve Problem
+                  </NavLink>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </div>
-  );
+  </div>
+);
 }
 
 const getDifficultyBadgeColor = (difficulty) => {
   switch (difficulty.toLowerCase()) {
-    case 'easy': return 'badge-success';
-    case 'medium': return 'badge-warning';
-    case 'hard': return 'badge-error';
-    default: return 'badge-neutral';
+    case 'easy': return 'bg-[#2ecc71] text-[#232323]';
+    case 'medium': return 'bg-[#f7b731] text-[#232323]';
+    case 'hard': return 'bg-[#eb2f06] text-[#e2e2e2]';
+    default: return 'bg-[#444] text-[#e2e2e2]';
   }
 };
 
