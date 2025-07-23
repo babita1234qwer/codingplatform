@@ -4,6 +4,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const socketHandler = require('./controllers/socket.js'); 
 
+
 const server = http.createServer(app);
 
 const path = require('path');
@@ -19,6 +20,7 @@ const aiRouter=require('./routes/aichatting.js');
 const videoRouter=require('./routes/videoCreator.js');
 const leaderrouter=require('./routes/leaderboard.js');              
 const Commentrouter=require('./routes/commentrouter.js');
+const Paymentrouter=require('./routes/payment.js');
 const cors=require('cors');
 
 const io = new Server(server, {
@@ -55,6 +57,7 @@ app.use('/ai',aiRouter);
 app.use('/video',videoRouter);
 app.use('/comments',Commentrouter);
 app.use('/leader',leaderrouter);
+app.use("/payment", Paymentrouter);
 
 
 

@@ -40,7 +40,10 @@ const userSchema=new Schema({
         required:true,
         
         
-    }},
+    },premiumUser: {
+  type: Boolean,
+  default: false,
+}},
     {
         timestamps:true
     }
