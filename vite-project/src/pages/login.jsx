@@ -28,48 +28,50 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-primary/10 via-base-200 to-base-100 px-4">
-      <div className="bg-base-100 shadow-2xl rounded-2xl p-10 flex flex-col items-center border border-base-300 w-full max-w-md">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-primary mb-2 drop-shadow-lg text-center">
+    <div className="min-h-screen flex justify-center items-center bg-neutral-900 px-4">
+      <div className="bg-neutral-800 shadow-lg rounded-2xl p-10 w-full max-w-md border border-neutral-700">
+        <h1 className="text-4xl font-bold text-white text-center mb-2">
           <span className="inline-block animate-bounce">🚀</span> CodeCrack
         </h1>
-        <h2 className="text-xl text-secondary mb-6 font-semibold text-center">Welcome back! Please login to continue.</h2>
+        <h2 className="text-lg text-gray-400 text-center mb-6">
+          Welcome back! Please login to continue.
+        </h2>
         <form className="w-full" onSubmit={handleSubmit(submitteddata)}>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" htmlFor="email">Email</label>
+            <label className="block text-sm text-gray-300 mb-1" htmlFor="email">Email</label>
             <input
               {...register('emailid')}
               type="email"
               id="email"
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-3 py-2 bg-neutral-700 text-white border border-neutral-600 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
               autoComplete="email"
             />
-            {errors.emailid && <span className="text-red-500 text-sm">{errors.emailid.message}</span>}
+            {errors.emailid && <span className="text-red-400 text-sm">{errors.emailid.message}</span>}
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" htmlFor="password">Password</label>
+            <label className="block text-sm text-gray-300 mb-1" htmlFor="password">Password</label>
             <input
               {...register('password')}
               type="password"
               id="password"
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-3 py-2 bg-neutral-700 text-white border border-neutral-600 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
               autoComplete="current-password"
             />
-            {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
+            {errors.password && <span className="text-red-400 text-sm">{errors.password.message}</span>}
           </div>
-          {error && <div className="mb-4 text-red-600 text-sm text-center">{error}</div>}
+          {error && <div className="mb-4 text-red-500 text-sm text-center">{error}</div>}
           <button
             type="submit"
-            className="w-full bg-primary text-white py-2 rounded-full font-semibold hover:bg-primary/90 transition-colors duration-150 shadow"
+            className="w-full bg-orange-500 hover:bg-orange-400 text-white py-2 rounded-md font-semibold transition duration-150"
             disabled={loading}
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        <div className="mt-6 text-sm text-base-content/70 text-center">
+        <div className="mt-6 text-sm text-gray-400 text-center">
           Don&apos;t have an account?{' '}
           <span
-            className="text-primary font-semibold cursor-pointer hover:underline"
+            className="text-orange-400 font-semibold cursor-pointer hover:underline"
             onClick={() => navigate('/signup')}
           >
             Sign up

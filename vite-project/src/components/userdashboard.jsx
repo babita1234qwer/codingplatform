@@ -36,47 +36,54 @@ const UserDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-base-200 to-base-100 py-10">
-      <div className="max-w-3xl mx-auto bg-base-100 shadow-2xl rounded-3xl p-10 border border-base-300">
+    <div className="min-h-screen bg-base-200 py-10">
+      <div className="max-w-4xl mx-auto bg-base-300 text-neutral-content shadow-xl rounded-2xl p-10 border border-base-100">
+        {/* Header */}
         <div className="flex items-center gap-6 mb-10">
           <div className="avatar placeholder">
-            <div className="bg-gradient-to-br from-primary to-secondary text-neutral-content rounded-full w-20 h-20 flex items-center justify-center text-4xl shadow-lg">
+            <div className="bg-primary text-neutral-content rounded-full w-20 h-20 flex items-center justify-center text-4xl">
               <span>{user?.firstName?.[0]?.toUpperCase() || "U"}</span>
             </div>
           </div>
           <div>
-            <h2 className="text-3xl font-extrabold text-primary mb-1">{user?.firstName}</h2>
-            <div className="text-base-content/70 text-lg">{user?.emailid}</div>
+            <h2 className="text-3xl font-bold text-primary">{user?.firstName}</h2>
+            <div className="text-base-content/70 text-sm">{user?.emailid}</div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-          <div className="stat bg-gradient-to-br from-success/10 to-base-200 rounded-2xl shadow flex flex-col items-center py-6">
-            <div className="stat-title text-lg font-semibold mb-2 flex items-center gap-2">
-              <span role="img" aria-label="solved">✅</span> Problems Solved
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+          <div className="bg-base-100 rounded-xl shadow-md p-6 text-center">
+            <div className="text-lg font-semibold mb-2 text-success">
+              ✅ Problems Solved
             </div>
-            <div className="stat-value text-success text-4xl font-bold">
+            <div className="text-3xl font-bold">
               {solvedProblems.length}
               <span className="text-base-content/60 text-lg font-normal"> / {totalProblems}</span>
             </div>
           </div>
-          <div className="stat bg-gradient-to-br from-info/10 to-base-200 rounded-2xl shadow flex flex-col items-center py-6">
-            <div className="stat-title text-lg font-semibold mb-2 flex items-center gap-2">
-              <span role="img" aria-label="contest">🏆</span> Contests Participated
+
+          <div className="bg-base-100 rounded-xl shadow-md p-6 text-center">
+            <div className="text-lg font-semibold mb-2 text-info">
+              🏆 Contests Participated
             </div>
-            <div className="stat-value text-info text-4xl font-bold">{contests.length}</div>
+            <div className="text-3xl font-bold">{contests.length}</div>
           </div>
         </div>
 
-        <div className="mb-10">
-          <h3 className="text-xl font-bold mb-3 text-primary">Recently Solved Problems</h3>
+        {/* Recently Solved */}
+        <div className="mb-8">
+          <h3 className="text-xl font-bold text-primary mb-2">Recently Solved Problems</h3>
           {solvedProblems.length === 0 ? (
-            <div className="text-base-content/60 italic">No problems solved yet.</div>
+            <p className="text-base-content/60 italic">No problems solved yet.</p>
           ) : (
-            <ul className="list-disc list-inside space-y-2">
+            <ul className="space-y-2">
               {solvedProblems.slice(0, 5).map((prob) => (
                 <li key={prob._id}>
-                  <NavLink to={`/problem/${prob._id}`} className="text-primary hover:underline font-medium">
+                  <NavLink
+                    to={`/problem/${prob._id}`}
+                    className="hover:underline text-primary font-medium"
+                  >
                     {prob.title}
                   </NavLink>
                 </li>
@@ -85,15 +92,19 @@ const UserDashboard = () => {
           )}
         </div>
 
+        {/* Contests */}
         <div>
-          <h3 className="text-xl font-bold mb-3 text-info">Recent Contests</h3>
+          <h3 className="text-xl font-bold text-info mb-2">Recent Contests</h3>
           {contests.length === 0 ? (
-            <div className="text-base-content/60 italic">No contests participated yet.</div>
+            <p className="text-base-content/60 italic">No contests participated yet.</p>
           ) : (
-            <ul className="list-disc list-inside space-y-2">
+            <ul className="space-y-2">
               {contests.slice(0, 5).map((contest) => (
                 <li key={contest._id}>
-                  <NavLink to={`/contest/${contest._id}/leaderboard`} className="text-info hover:underline font-medium">
+                  <NavLink
+                    to={`/contest/${contest._id}/leaderboard`}
+                    className="hover:underline text-info font-medium"
+                  >
                     {contest.name}
                   </NavLink>
                 </li>

@@ -6,7 +6,6 @@ import { registerUser } from '../authslice';
 import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
 
-
 const signupSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   emailid: z.string().email('Invalid email address'),
@@ -56,54 +55,54 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-primary/10 via-base-200 to-base-100 px-4">
-      <div className="bg-base-100 shadow-2xl rounded-2xl p-10 flex flex-col items-center border border-base-300 w-full max-w-md">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-primary mb-2 drop-shadow-lg text-center">
+    <div className="min-h-screen flex flex-col justify-center items-center bg-neutral-900 px-4">
+      <div className="bg-neutral-800 shadow-xl rounded-2xl p-10 w-full max-w-md border border-neutral-700">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-2 text-center">
           <span className="inline-block animate-bounce">🚀</span> CodeCrack
         </h1>
-        <h2 className="text-xl text-secondary mb-6 font-semibold text-center">Create your account</h2>
+        <h2 className="text-lg text-gray-400 mb-6 font-semibold text-center">
+          Create your account
+        </h2>
 
-        
         {errors.root && (
-          <div className="text-red-600 text-sm mb-4 text-center">
+          <div className="text-red-500 text-sm mb-4 text-center">
             {errors.root.message}
           </div>
         )}
 
         <form className="w-full" onSubmit={handleSubmit(submitteddata)}>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" htmlFor="username">Username</label>
+            <label className="block text-sm text-gray-300 mb-1" htmlFor="username">Username</label>
             <input
               {...register('firstName')}
               type="text"
               id="username"
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-3 py-2 bg-neutral-700 text-white border border-neutral-600 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
-            {errors.firstName && <span className="text-red-500 text-sm">{errors.firstName.message}</span>}
+            {errors.firstName && <span className="text-red-400 text-sm">{errors.firstName.message}</span>}
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" htmlFor="email">Email</label>
+            <label className="block text-sm text-gray-300 mb-1" htmlFor="email">Email</label>
             <input
               {...register('emailid')}
               type="email"
               id="email"
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-3 py-2 bg-neutral-700 text-white border border-neutral-600 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
-            {errors.emailid && <span className="text-red-500 text-sm">{errors.emailid.message}</span>}
+            {errors.emailid && <span className="text-red-400 text-sm">{errors.emailid.message}</span>}
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" htmlFor="password">Password</label>
+            <label className="block text-sm text-gray-300 mb-1" htmlFor="password">Password</label>
             <input
               {...register('password')}
               type="password"
               id="password"
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-3 py-2 bg-neutral-700 text-white border border-neutral-600 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
-            {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
+            {errors.password && <span className="text-red-400 text-sm">{errors.password.message}</span>}
 
-            {/* Optional password guide */}
             <p className="text-xs text-gray-500 mt-1">
               Must start with a capital letter and include lowercase, number, and special character.
             </p>
@@ -111,16 +110,16 @@ function Signup() {
 
           <button
             type="submit"
-            className="w-full bg-primary text-white py-2 rounded-full font-semibold hover:bg-primary/90 transition-colors duration-150 shadow"
+            className="w-full bg-orange-500 hover:bg-orange-400 text-white py-2 rounded-md font-semibold transition duration-150"
           >
             Sign Up
           </button>
         </form>
 
-        <div className="mt-6 text-sm text-base-content/70 text-center">
+        <div className="mt-6 text-sm text-gray-400 text-center">
           Already have an account?{' '}
           <span
-            className="text-primary font-semibold cursor-pointer hover:underline"
+            className="text-orange-400 font-semibold cursor-pointer hover:underline"
             onClick={() => navigate('/login')}
           >
             Login

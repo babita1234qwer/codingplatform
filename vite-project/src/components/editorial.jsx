@@ -1,17 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { Pause, Play } from 'lucide-react';
 
-
-
 const Editorial = ({ secureUrl, thumbnailUrl, duration }) => {
-
-
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [generatedThumbnail, setGeneratedThumbnail] = useState(null);
 
-  // Format seconds to MM:SS
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
@@ -29,19 +25,39 @@ const Editorial = ({ secureUrl, thumbnailUrl, duration }) => {
     }
   };
 
-  // Update current time during playback
   useEffect(() => {
     const video = videoRef.current;
-    
     const handleTimeUpdate = () => {
       if (video) setCurrentTime(video.currentTime);
     };
-    
     if (video) {
       video.addEventListener('timeupdate', handleTimeUpdate);
       return () => video.removeEventListener('timeupdate', handleTimeUpdate);
     }
   }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!thumbnailUrl && video) {
+      const handleLoadedData = () => {
+        video.currentTime = 0.1; // Try a very early frame
+      };
+      const handleSeeked = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        setGeneratedThumbnail(canvas.toDataURL('image/jpeg'));
+      };
+      video.addEventListener('loadeddata', handleLoadedData);
+      video.addEventListener('seeked', handleSeeked);
+      return () => {
+        video.removeEventListener('loadeddata', handleLoadedData);
+        video.removeEventListener('seeked', handleSeeked);
+      };
+    }
+  }, [secureUrl, thumbnailUrl]);
 
   return (
     <div 
@@ -49,22 +65,25 @@ const Editorial = ({ secureUrl, thumbnailUrl, duration }) => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      
-      <video
-        ref={videoRef}
-        src={secureUrl}
-        poster={thumbnailUrl}
-        onClick={togglePlayPause}
-        className="w-full aspect-video bg-black cursor-pointer"
-      />
-      
-      
+      {
+        (!thumbnailUrl && !generatedThumbnail)
+          ? <div className="w-full aspect-video bg-black flex items-center justify-center">Loading thumbnail...</div>
+          : (
+            <video
+              ref={videoRef}
+              src={secureUrl}
+              poster={thumbnailUrl || generatedThumbnail}
+              onClick={togglePlayPause}
+              className="w-full aspect-video bg-black cursor-pointer"
+              crossOrigin="anonymous"
+            />
+          )
+      }
       <div 
         className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 transition-opacity ${
           isHovering || !isPlaying ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        
         <button
           onClick={togglePlayPause}
           className="btn btn-circle btn-primary mr-3"
@@ -76,8 +95,6 @@ const Editorial = ({ secureUrl, thumbnailUrl, duration }) => {
             <Play/>
           )}
         </button>
-        
-        
         <div className="flex items-center w-full mt-2">
           <span className="text-white text-sm mr-2">
             {formatTime(currentTime)}
@@ -102,6 +119,5 @@ const Editorial = ({ secureUrl, thumbnailUrl, duration }) => {
     </div>
   );
 };
-
 
 export default Editorial;

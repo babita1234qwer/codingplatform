@@ -8,9 +8,9 @@ const CommentSection = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [currentUserId, setCurrentUserId] = useState(null);
-  const [currentUserRole, setCurrentUserRole] = useState(""); 
+  const [currentUserRole, setCurrentUserRole] = useState("");
   const [replyText, setReplyText] = useState({});
-  const [showReply, setShowReply] = useState({}); 
+  const [showReply, setShowReply] = useState({});
 
   const fetchComments = async () => {
     try {
@@ -49,9 +49,7 @@ const CommentSection = () => {
     const content = replyText[commentId]?.trim();
     if (!content) return;
     try {
-      await axiosClient.post(`/comments/reply/${commentId}`, {
-        content,
-      });
+      await axiosClient.post(`/comments/reply/${commentId}`, { content });
       setReplyText((prev) => ({ ...prev, [commentId]: "" }));
       setShowReply((prev) => ({ ...prev, [commentId]: false }));
       fetchComments();
@@ -92,21 +90,23 @@ const CommentSection = () => {
   }, [problemId]);
 
   return (
-    <div className="p-6 max-w-2xl mx-auto bg-base-100 rounded-xl shadow-lg border border-base-200">
-      <h2 className="text-2xl font-bold mb-6 text-primary border-b pb-2">Discussion</h2>
+    <div className="w-full px-4 py-6 bg-zinc-900 rounded-xl shadow-md border border-zinc-800">
+      <h2 className="text-2xl font-semibold text-white mb-6 border-b border-zinc-700 pb-2">
+        Discussion
+      </h2>
 
-      {/* Add new comment */}
+      {/* New Comment */}
       <div className="mb-8">
         <textarea
-          className="textarea textarea-bordered w-full"
+          className="w-full bg-zinc-800 border border-zinc-700 text-zinc-200 p-3 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          rows={3}
           placeholder="Write your comment..."
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
-          rows={3}
         />
         <div className="flex justify-end mt-2">
           <button
-            className="btn btn-primary btn-sm"
+            className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-500 font-medium transition"
             onClick={handleAddComment}
           >
             Post Comment
@@ -114,116 +114,104 @@ const CommentSection = () => {
         </div>
       </div>
 
-      {/* Comment list */}
+      {/* Comment List */}
       {comments.length === 0 ? (
-        <div className="text-base-content/60 italic text-center">No comments yet. Be the first to comment!</div>
+        <div className="text-zinc-500 italic text-center">
+          No comments yet. Be the first to comment!
+        </div>
       ) : (
         <div className="space-y-6">
           {comments.map((comment) => {
             const isLiked = currentUserId && comment.likes.includes(currentUserId);
             const canDelete =
-              currentUserId === comment.userId?._id ||
-              currentUserRole.toLowerCase() === "admin";
+              currentUserId === comment.userId?._id || currentUserRole.toLowerCase() === "admin";
+
             return (
-              <div
-                key={comment._id}
-                className="card bg-base-200 shadow border border-base-300"
-              >
-                <div className="card-body p-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="avatar placeholder">
-                        <div className="bg-neutral text-neutral-content rounded-full w-8">
-                          <span>
-                            {comment.userId?.firstName?.[0]?.toUpperCase() || "U"}
-                          </span>
-                        </div>
-                      </div>
-                      <div>
-                        <span className="font-semibold text-base-content">
-                          {comment.userId?.firstName} {comment.userId?.lastName}
-                        </span>
-                        <p className="text-base-content/80 mt-1">{comment.content}</p>
-                        <div className="flex gap-2 mt-2">
-                          <button
-                            className={`btn btn-xs flex items-center gap-1 ${
-                              isLiked ? "btn-info text-white" : "btn-ghost"
-                            }`}
-                            title={isLiked ? "Unlike" : "Like"}
-                            onClick={() => handleLike(comment._id)}
-                          >
-                            <FaThumbsUp />
-                            <span>{comment.likes.length}</span>
-                            <span>{isLiked ? "Liked" : "Like"}</span>
-                          </button>
-                          <button
-                            className="btn btn-xs btn-ghost flex items-center gap-1"
-                            title="Reply"
-                            onClick={() => toggleReplyInput(comment._id)}
-                          >
-                            <FaReply />
-                            <span>Reply</span>
-                          </button>
-                          {canDelete && (
-                            <button
-                              className="btn btn-xs btn-error btn-outline flex items-center gap-1"
-                              title="Delete"
-                              onClick={() => handleDelete(comment._id)}
-                            >
-                              <FaTrash />
-                              <span>Delete</span>
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+              <div key={comment._id} className="bg-zinc-800 p-4 rounded-lg border border-zinc-700">
+                <div className="flex gap-3">
+                  <div className="bg-zinc-700 w-10 h-10 rounded-full flex items-center justify-center font-bold text-white">
+                    {comment.userId?.firstName?.[0]?.toUpperCase() || "U"}
                   </div>
+                  <div className="flex-1">
+                    <span className="font-semibold text-indigo-400">
+                      {comment.userId?.firstName} {comment.userId?.lastName}
+                    </span>
+                    <p className="text-zinc-200 mt-1">{comment.content}</p>
+                    <div className="flex gap-3 mt-2">
+                      <button
+                        onClick={() => handleLike(comment._id)}
+                        className={`text-sm px-3 py-1 rounded-full flex items-center gap-1 transition ${
+                          isLiked
+                            ? "bg-indigo-600 text-white"
+                            : "border border-zinc-600 text-zinc-300 hover:bg-zinc-700"
+                        }`}
+                      >
+                        <FaThumbsUp />
+                        <span>{comment.likes.length}</span>
+                        <span>{isLiked ? "Liked" : "Like"}</span>
+                      </button>
 
-                  {/* Replies with avatar */}
-                  {comment.replies.length > 0 && (
-                    <div className="mt-3 ml-8 border-l-2 border-base-300 pl-4 space-y-2">
-                      {comment.replies.map((reply, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-sm text-base-content/80">
-                          <div className="avatar placeholder">
-                            <div className="bg-neutral text-neutral-content rounded-full w-6 h-6">
-                              <span>
-                                {reply.userId?.firstName?.[0]?.toUpperCase() || "U"}
-                              </span>
-                            </div>
-                          </div>
-                          <span className="font-semibold">{reply.userId?.firstName || "User"}</span>
-                          <span>{reply.content}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                      <button
+                        onClick={() => toggleReplyInput(comment._id)}
+                        className="text-sm px-3 py-1 rounded-full border border-zinc-600 text-zinc-300 hover:bg-zinc-700 flex items-center gap-1 transition"
+                      >
+                        <FaReply />
+                        <span>Reply</span>
+                      </button>
 
-                  {/* Reply Input (toggle) */}
-                  {showReply[comment._id] && (
-                    <div className="ml-8 mt-3">
-                      <textarea
-                        className="textarea textarea-sm textarea-bordered w-full"
-                        placeholder="Write a reply..."
-                        value={replyText[comment._id] || ""}
-                        onChange={(e) =>
-                          setReplyText((prev) => ({
-                            ...prev,
-                            [comment._id]: e.target.value,
-                          }))
-                        }
-                        rows={2}
-                      />
-                      <div className="flex justify-end mt-1">
+                      {canDelete && (
                         <button
-                          className="btn btn-sm btn-outline"
-                          onClick={() => handleReply(comment._id)}
-                          disabled={!replyText[comment._id]?.trim()}
+                          onClick={() => handleDelete(comment._id)}
+                          className="text-sm px-3 py-1 rounded-full bg-red-600 text-white hover:bg-red-500 flex items-center gap-1 transition"
                         >
-                          Post Reply
+                          <FaTrash />
+                          <span>Delete</span>
                         </button>
-                      </div>
+                      )}
                     </div>
-                  )}
+
+                    {/* Replies */}
+                    {comment.replies.length > 0 && (
+                      <div className="mt-4 pl-5 border-l-2 border-zinc-700 space-y-2">
+                        {comment.replies.map((reply, idx) => (
+                          <div key={idx} className="flex gap-2 items-center text-sm text-zinc-300">
+                            <div className="w-7 h-7 bg-zinc-700 rounded-full flex items-center justify-center font-bold text-white">
+                              {reply.userId?.firstName?.[0]?.toUpperCase() || "U"}
+                            </div>
+                            <span className="font-semibold text-indigo-400">{reply.userId?.firstName}</span>
+                            <span>{reply.content}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Reply Input */}
+                    {showReply[comment._id] && (
+                      <div className="mt-3 ml-12">
+                        <textarea
+                          className="w-full bg-zinc-800 text-zinc-200 border border-zinc-600 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          rows={2}
+                          placeholder="Write a reply..."
+                          value={replyText[comment._id] || ""}
+                          onChange={(e) =>
+                            setReplyText((prev) => ({
+                              ...prev,
+                              [comment._id]: e.target.value,
+                            }))
+                          }
+                        />
+                        <div className="flex justify-end mt-2">
+                          <button
+                            disabled={!replyText[comment._id]?.trim()}
+                            onClick={() => handleReply(comment._id)}
+                            className="px-4 py-1 bg-indigo-600 text-white rounded-full hover:bg-indigo-500 font-medium transition disabled:opacity-50"
+                          >
+                            Post Reply
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             );
