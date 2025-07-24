@@ -17,7 +17,7 @@ const razorpay = new Razorpay({
 // Create Razorpay Order - Fixed amount
 const createOrder = async (req, res) => {
   try {
-    const fixedAmount = 4900; // ₹49.00 in paise
+    const fixedAmount = 20000; // ₹49.00 in paise
     console.log("Creating order for amount:", fixedAmount);
 
     const options = {

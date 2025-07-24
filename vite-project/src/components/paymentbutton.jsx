@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import axiosClient from '../utils/axiosclient';
 
 const PaymentButton = ({ onSuccess }) => {
-  const fixedAmount = 49; // Fixed amount in rupees
+  const fixedAmount = 200; // Fixed amount in rupees
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {

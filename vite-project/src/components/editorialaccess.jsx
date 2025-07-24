@@ -44,8 +44,8 @@ const EditorialAccessChecker = ({ secureUrl, thumbnailUrl, duration }) => {
       ) : (
         <div className="text-center">
           <p className="mb-4 text-lg">🔒 Editorial is locked</p>
-          <p className="mb-4">Unlock premium access for ₹29</p>
-          <PaymentButton amount={29} onSuccess={() => setHasAccess(true)} />
+          <p className="mb-4">Unlock premium access for ₹200</p>
+          <PaymentButton amount={200} onSuccess={() => setHasAccess(true)} />
         </div>
       )}
     </div>
