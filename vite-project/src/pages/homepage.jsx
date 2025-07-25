@@ -46,7 +46,9 @@ function Homepage() {
 
   const filteredProblems = problems.filter(problem => {
     const difficultyMatch = filters.difficulty === 'all' || problem.difficulty === filters.difficulty;
-    const tagMatch = filters.tag === 'all' || problem.tags === filters.tag;
+   
+    const tagMatch = filters.tag === 'all' || problem.tags.includes(filters.tag);
+
     const statusMatch = filters.status === 'all' ||
       solvedProblems.some(sp => sp._id === problem._id);
 
@@ -131,14 +133,16 @@ function Homepage() {
             onChange={(e) => setFilters({ ...filters, tag: e.target.value })}
           >
             <option value="all">All Tags</option>
-            <option value="array">Array</option>
-            <option value="linkedList">Linked List</option>
-            <option value="graph">Graph</option>
-            <option value="dp">DP</option>
+            <option value="array">array</option>
+            <option value="linkedList">linkedlist</option>
+            <option value="graph">graph</option>
+            <option value="dp">dp</option>
+            <option value="string">string</option>
           </select>
         </div>
 
         {/* Problems List - vertical, compact */}
+        <h2 className="text-xl font-bold text-[#ffa116] mb-4 px-2">Problems</h2>
         <div className="flex flex-col gap-3 w-full px-2">
           {filteredProblems.length === 0 ? (
             <div className="text-center text-[#888] py-10">

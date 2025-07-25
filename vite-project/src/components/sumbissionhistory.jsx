@@ -7,22 +7,34 @@ const SubmissionHistory = ({ problemId }) => {
   const [error, setError] = useState(null);
   const [selectedSubmission, setSelectedSubmission] = useState(null);
 
-  useEffect(() => {
-    const fetchSubmissions = async () => {
-      try {
-        setLoading(true);
-        const response = await axiosClient.get(`/problem/submittedproblems/${problemId}`);
-        setSubmissions(response.data || []);
-        setError(null);
-      } catch (err) {
-        setError('Failed to fetch submission history');
-        console.error(err);
-      } finally {
-        setLoading(false);
+useEffect(() => {
+  const fetchSubmissions = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axiosClient.get(`/problem/submittedproblems/${problemId}`);
+      // Assume the API returns an array, or null/undefined
+      const data = response.data;
+
+      if (Array.isArray(data)) {
+        setSubmissions(data);
+      } else {
+        // Fallback in case response isn't an array
+        setSubmissions([]);
       }
-    };
-    fetchSubmissions();
-  }, [problemId]);
+    } catch (err) {
+      console.error('API fetch error:', err);
+      setSubmissions([]); // Show no submissions on error
+      setError(null); // Don't show error message in UI
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchSubmissions();
+}, [problemId]);
+
+
 
   const getStatusColor = (status) => {
     switch (status) {

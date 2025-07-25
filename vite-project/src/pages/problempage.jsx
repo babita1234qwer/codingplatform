@@ -156,43 +156,31 @@ const ProblemPage = () => {
           </div>
         </div>
    <div className="tabs tabs-bordered bg-[#232323] px-4 mt-2">
-  <button 
-    className={`tab tab-bordered ${activelefttab === 'description' ? 'tab-active border-[#ffa116]' : ''} text-[#ffa116]`}
-    onClick={() => setactivelefttab('description')}
-  >
-    Description
-  </button>
-  <button 
-    className={`tab tab-bordered ${activelefttab === 'editorial' ? 'tab-active border-[#ffa116]' : ''} text-[#ffa116]`}
-    onClick={() => setactivelefttab('editorial')}
-  >
-    Editorial
-  </button>
-  <button 
-    className={`tab tab-bordered ${activelefttab === 'solutions' ? 'tab-active border-[#ffa116]' : ''} text-[#ffa116]`}
-    onClick={() => setactivelefttab('solutions')}
-  >
-    Solutions
-  </button>
-  <button 
-    className={`tab tab-bordered ${activelefttab === 'submissions' ? 'tab-active border-[#ffa116]' : ''} text-[#ffa116]`}
-    onClick={() => setactivelefttab('submissions')}
-  >
-    Submissions
-  </button>
-  <button 
-    className={`tab tab-bordered ${activelefttab === 'chatai' ? 'tab-active border-[#ffa116]' : ''} text-[#ffa116]`}
-    onClick={() => setactivelefttab('chatai')}
-  >
-    CHAT with AI
-  </button>
-  <button 
-    className={`tab tab-bordered ${activelefttab === 'comments' ? 'tab-active border-[#ffa116]' : ''} text-[#ffa116]`}
-    onClick={() => setactivelefttab('comments')}
-  >
-    Discussions
-  </button>
-</div>
+          <button
+            className={`tab tab-bordered ${activelefttab === 'description' ? 'tab-active border-[#ffa116]' : ''} !text-[#ffa116]`}
+            onClick={() => setactivelefttab('description')}
+          >Description</button>
+          <button
+            className={`tab tab-bordered ${activelefttab === 'editorial' ? 'tab-active border-[#ffa116]' : ''} !text-[#ffa116]`}
+            onClick={() => setactivelefttab('editorial')}
+          >Editorial</button>
+          <button
+            className={`tab tab-bordered ${activelefttab === 'solutions' ? 'tab-active border-[#ffa116]' : ''} !text-[#ffa116]`}
+            onClick={() => setactivelefttab('solutions')}
+          >Solutions</button>
+          <button
+            className={`tab tab-bordered ${activelefttab === 'submissions' ? 'tab-active border-[#ffa116]' : ''} !text-[#ffa116]`}
+            onClick={() => setactivelefttab('submissions')}
+          >Submissions</button>
+          <button
+            className={`tab tab-bordered ${activelefttab === 'chatai' ? 'tab-active border-[#ffa116]' : ''} !text-[#ffa116]`}
+            onClick={() => setactivelefttab('chatai')}
+          >CHAT with AI</button>
+          <button
+            className={`tab tab-bordered ${activelefttab === 'comments' ? 'tab-active border-[#ffa116]' : ''} !text-[#ffa116]`}
+            onClick={() => setactivelefttab('comments')}
+          >Discussions</button>
+        </div>
 
                 <div className="flex-1 overflow-y-auto p-6">
                     {problem && (

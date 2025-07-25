@@ -38,34 +38,34 @@ const ContestDetail = () => {
 
   if (!contest) {
     return (
-      <div className="flex justify-center items-center min-h-[40vh] px-6 py-10">
-        <span className="loading loading-spinner loading-lg"></span>
+      <div className="flex justify-center items-center min-h-[40vh] px-6 py-10 bg-[#1a1a1a] text-white">
+        <span className="loading loading-spinner loading-lg text-[#ffa116]"></span>
       </div>
     );
   }
 
   return (
-    <div className="p-4 sm:p-6 w-full max-w-6xl mx-auto">
+    <div className="bg-[#1a1a1a] min-h-screen text-[#e2e2e2] p-4 sm:p-6 w-full">
       {/* Contest Info */}
-      <div className="bg-[#262626] shadow-xl rounded-2xl border border-[#333] p-4 sm:p-6 mb-10">
+      <div className="bg-[#232323] shadow-xl rounded-2xl border border-[#333] p-4 sm:p-6 mb-10">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
-          <div className="w-12 h-12 flex items-center justify-center text-xl font-bold rounded-full bg-gradient-to-br from-purple-700 to-pink-600 text-white">
+          <div className="w-12 h-12 flex items-center justify-center text-xl font-bold rounded-full bg-[#ffa116] text-black shadow">
             {contest.title[0]?.toUpperCase() || "C"}
           </div>
           <div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-sky-400">{contest.title}</h2>
-            <div className="flex gap-2 mt-1 flex-wrap text-xs sm:text-sm">
-              <span className="bg-[#322f47] text-violet-200 px-3 py-1 rounded-md">
-                Starts: {new Date(contest.startTime).toLocaleString()}
+            <h2 className="text-2xl font-extrabold text-blue-800">{contest.title}</h2>
+            <div className="flex gap-2 mt-2 flex-wrap text-xs sm:text-sm">
+              <span className="bg-[#333] text-gray-200 px-3 py-1 rounded-md">
+                🕓 Starts: {new Date(contest.startTime).toLocaleString()}
               </span>
-              <span className="bg-[#322f47] text-violet-200 px-3 py-1 rounded-md">
-                Ends: {new Date(contest.endTime).toLocaleString()}
+              <span className="bg-[#333] text-gray-200 px-3 py-1 rounded-md">
+                ⌛ Ends: {new Date(contest.endTime).toLocaleString()}
               </span>
             </div>
           </div>
         </div>
 
-        <p className="text-gray-300 text-sm mb-4">{contest.description}</p>
+        <p className="text-[#ccc] text-sm mb-4">{contest.description}</p>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 mt-2">
           <span className="font-medium text-gray-400">Status:</span>
@@ -78,23 +78,22 @@ const ContestDetail = () => {
           </span>
         </div>
 
-        {/* Leaderboard Button */}
         <div className="mt-6">
           <Link
             to={`/contest/${contest._id}/leaderboard`}
-            className="inline-block text-sm font-semibold border border-sky-400 text-sky-400 px-4 py-2 rounded-lg hover:bg-sky-400 hover:text-black transition"
+            className="inline-block text-sm font-semibold border border-[#ffa116] text-[#ffa116] px-4 py-2 rounded-lg hover:bg-[#ffa116] hover:text-black transition"
           >
-            View Leaderboard
+            📊 View Leaderboard
           </Link>
         </div>
       </div>
 
       {/* Problems Table */}
-      <div className="bg-[#262626] shadow-lg rounded-2xl border border-[#333] p-4 sm:p-6">
-        <h3 className="text-base sm:text-lg font-bold mb-4 text-white">Problems in this Contest</h3>
+      <div className="bg-[#232323] shadow-lg rounded-2xl border border-[#333] p-4 sm:p-6">
+        <h3 className="text-lg font-bold mb-4 text-[#e2e2e2]">📝 Problems in this Contest</h3>
         <div className="overflow-x-auto">
-          <table className="table w-full min-w-[600px]">
-            <thead className="bg-gradient-to-r from-[#2d2d2d] to-[#202020] text-gray-200 text-sm">
+          <table className="table w-full min-w-[600px] text-sm">
+            <thead className="bg-[#2a2a2a] text-[#ffa116]">
               <tr>
                 <th>#</th>
                 <th>Title</th>
@@ -109,18 +108,18 @@ const ContestDetail = () => {
                   <td>
                     <Link
                       to={`/problem/${problem._id}`}
-                      className="text-white font-medium hover:text-sky-400"
+                      className="text-[#00bcd4] font-medium hover:underline"
                     >
                       {problem.title}
                     </Link>
                   </td>
                   <td>
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${
                       problem.difficulty === "easy"
-                        ? "bg-green-500/20 text-green-300 border border-green-500"
+                        ? "bg-green-500/20 text-green-300 border-green-500"
                         : problem.difficulty === "medium"
-                          ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500"
-                          : "bg-red-500/20 text-red-300 border border-red-500"
+                          ? "bg-yellow-500/20 text-yellow-300 border-yellow-500"
+                          : "bg-red-500/20 text-red-300 border-red-500"
                     }`}>
                       {problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}
                     </span>
@@ -136,7 +135,7 @@ const ContestDetail = () => {
                     ) : (
                       <Link
                         to={`/contest/${contest._id}/problem/${problem._id}`}
-                        className="text-sm font-semibold border border-sky-400 text-sky-400 px-4 py-1 rounded-md hover:bg-sky-400 hover:text-black transition"
+                        className="text-sm font-semibold border border-[#ffa116] text-[#ffa116] px-4 py-1 rounded-md hover:bg-[#ffa116] hover:text-black transition"
                       >
                         Solve Now
                       </Link>
@@ -153,4 +152,5 @@ const ContestDetail = () => {
 };
 
 export default ContestDetail;
+
   

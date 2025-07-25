@@ -20,7 +20,7 @@ const UserDashboard = () => {
         const allProblemsRes = await axiosClient.get('/problem/getallproblem');
         setTotalProblems(allProblemsRes.data?.length || 0);
       } catch (err) {
-        // handle error if needed
+        console.error('Error fetching user dashboard data:', err);
       }
       setLoading(false);
     };
@@ -29,42 +29,43 @@ const UserDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-base-200">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
+      <div className="min-h-screen flex items-center justify-center bg-[#1a1a1a]">
+        <span className="loading loading-spinner loading-lg text-[#ffa116]"></span>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-base-200 py-10">
-      <div className="max-w-4xl mx-auto bg-base-300 text-neutral-content shadow-xl rounded-2xl p-10 border border-base-100">
+    <div className="min-h-screen bg-[#1a1a1a] py-10 px-4 text-[#e2e2e2]">
+      <div className="max-w-4xl mx-auto bg-[#2c2c2c] shadow-xl rounded-2xl p-8 border border-[#3d3d3d]">
         {/* Header */}
         <div className="flex items-center gap-6 mb-10">
           <div className="avatar placeholder">
-            <div className="bg-primary text-neutral-content rounded-full w-20 h-20 flex items-center justify-center text-4xl">
-              <span>{user?.firstName?.[0]?.toUpperCase() || "U"}</span>
+            <div className="bg-[#ffa116] text-black rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold">
+              <span>{user?.firstName?.[0]?.toUpperCase() || 'U'}</span>
             </div>
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-primary">{user?.firstName}</h2>
-            <div className="text-base-content/70 text-sm">{user?.emailid}</div>
+           <h2 className="text-3xl font-bold text-[#eaeaea]">{user?.firstName}</h2>
+
+            <div className="text-sm text-[#a6a6a6]">{user?.emailid}</div>
           </div>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          <div className="bg-base-100 rounded-xl shadow-md p-6 text-center">
-            <div className="text-lg font-semibold mb-2 text-success">
+          <div className="bg-[#1e1e1e] rounded-xl shadow p-6 text-center border border-[#3d3d3d]">
+            <div className="text-lg font-semibold mb-2 text-green-400">
               ✅ Problems Solved
             </div>
             <div className="text-3xl font-bold">
               {solvedProblems.length}
-              <span className="text-base-content/60 text-lg font-normal"> / {totalProblems}</span>
+              <span className="text-[#a6a6a6] text-lg font-normal"> / {totalProblems}</span>
             </div>
           </div>
 
-          <div className="bg-base-100 rounded-xl shadow-md p-6 text-center">
-            <div className="text-lg font-semibold mb-2 text-info">
+          <div className="bg-[#1e1e1e] rounded-xl shadow p-6 text-center border border-[#3d3d3d]">
+            <div className="text-lg font-semibold mb-2 text-sky-400">
               🏆 Contests Participated
             </div>
             <div className="text-3xl font-bold">{contests.length}</div>
@@ -73,16 +74,16 @@ const UserDashboard = () => {
 
         {/* Recently Solved */}
         <div className="mb-8">
-          <h3 className="text-xl font-bold text-primary mb-2">Recently Solved Problems</h3>
+          <h3 className="text-xl font-bold text-[#ffa116] mb-2">Recently Solved Problems</h3>
           {solvedProblems.length === 0 ? (
-            <p className="text-base-content/60 italic">No problems solved yet.</p>
+            <p className="text-[#a6a6a6] italic">No problems solved yet.</p>
           ) : (
             <ul className="space-y-2">
               {solvedProblems.slice(0, 5).map((prob) => (
                 <li key={prob._id}>
                   <NavLink
                     to={`/problem/${prob._id}`}
-                    className="hover:underline text-primary font-medium"
+                    className="hover:underline text-[#ffa116] font-medium"
                   >
                     {prob.title}
                   </NavLink>
@@ -94,16 +95,16 @@ const UserDashboard = () => {
 
         {/* Contests */}
         <div>
-          <h3 className="text-xl font-bold text-info mb-2">Recent Contests</h3>
+          <h3 className="text-xl font-bold text-sky-400 mb-2">Recent Contests</h3>
           {contests.length === 0 ? (
-            <p className="text-base-content/60 italic">No contests participated yet.</p>
+            <p className="text-[#a6a6a6] italic">No contests participated yet.</p>
           ) : (
             <ul className="space-y-2">
               {contests.slice(0, 5).map((contest) => (
                 <li key={contest._id}>
                   <NavLink
                     to={`/contest/${contest._id}/leaderboard`}
-                    className="hover:underline text-info font-medium"
+                    className="hover:underline text-sky-400 font-medium"
                   >
                     {contest.name}
                   </NavLink>
