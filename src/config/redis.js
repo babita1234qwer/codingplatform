@@ -2,11 +2,12 @@ const { createClient } = require('redis');
 
 
 const redisclient = createClient({
-  username: "default",
-  password: "GIcF9Y056h0gEC9qrfADbByIV3QGEb2Y",
-  socket: {
-    host: "redis-19541.c266.us-east-1-3.ec2.cloud.redislabs.com",
-    port: 19541,
-  }});
+    username: 'default',
+    password: '2V7x8MU8xVOLhhGv5WhPq9OrkvDED8Le',
+    socket: {
+        host: 'redis-18358.c9.us-east-1-4.ec2.cloud.redislabs.com',
+        port: 18358
+    }
+});
 
 module.exports = redisclient;
